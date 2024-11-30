@@ -19,8 +19,13 @@ class Program
         //shoppingCart.ListCartItems();
         //Console.WriteLine("\n\n\n");
         //shoppingCart.ApplyTax();
-        ProductsWithSameTypeVisitor visitor = new ProductsWithSameTypeVisitor();
-        shoppingCart.CartItems[4].TheProduct.Accept(visitor);
+        OneLineFormatDescriptionVisitor visitor = new OneLineFormatDescriptionVisitor();
+        foreach (var item in shoppingCart.CartItems)
+        {
+            item.TheProduct.Accept(visitor);
+            Console.WriteLine(visitor.Description);
+        }
+
         //shoppingCart.ListCartItems();
     }
 }
