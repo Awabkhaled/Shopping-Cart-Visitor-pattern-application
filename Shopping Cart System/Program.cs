@@ -13,12 +13,14 @@ class Program
         shoppingCart.AddItem(3, 3);
         shoppingCart.AddItem(4, 4);
         shoppingCart.AddItem(6, 1);
-        shoppingCart.ListCartItems();
-        Console.WriteLine("\n\n\n"); 
-        shoppingCart.ApplyDiscounts();
-        shoppingCart.ListCartItems();
-        Console.WriteLine("\n\n\n");
-        shoppingCart.ApplyTax();
-        shoppingCart.ListCartItems();
+        //shoppingCart.ListCartItems();
+        //Console.WriteLine("\n\n\n"); 
+        //shoppingCart.ApplyDiscounts();
+        //shoppingCart.ListCartItems();
+        //Console.WriteLine("\n\n\n");
+        //shoppingCart.ApplyTax();
+        ProductsWithSameTypeVisitor visitor = new ProductsWithSameTypeVisitor();
+        shoppingCart.CartItems[4].TheProduct.Accept(visitor);
+        //shoppingCart.ListCartItems();
     }
 }

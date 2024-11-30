@@ -32,7 +32,7 @@ class Clothing : ProductBase
     {
         Color = color;
         Size = size;
-        Catagory = "Clothing";
+        Catagory = nameof(Clothing);
     }
 
     // names of Fields that I will ask the user to enter in a specific order (order of the constructor)

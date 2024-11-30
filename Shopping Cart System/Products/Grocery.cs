@@ -26,7 +26,7 @@ class Grocery : ProductBase
         : base(name, price, description)
     {
         Weight = weight;
-        Catagory = "Grocery";
+        Catagory = nameof(Grocery);
     }
 
     // names of Fields that I will ask the user to enter in a specific order (order of the constructor)

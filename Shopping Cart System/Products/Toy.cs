@@ -25,7 +25,7 @@ class Toy : ProductBase
     {
         LeastAge = leastAge;
         Material = material;
-        Catagory = "Toys";
+        Catagory = nameof(Toy);
     }
 
     // names of Fields that I will ask the user to enter in a specific order (order of the constructor)
