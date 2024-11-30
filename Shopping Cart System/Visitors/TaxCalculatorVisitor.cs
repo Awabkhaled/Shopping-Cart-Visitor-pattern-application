@@ -4,25 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-class DiscountCalculatorVisitor: IProductVisitor
+class TaxCalculatorVisitor: IProductVisitor
 {
-    public double Discount { get; private set; }
+    public double TaxValue { get; private set; }
 
     public void Visit(Clothing clothing)
     {
         Database.Discounts.TryGetValue(clothing.Id, out double dicountPercentage);
-        Discount = clothing.Price * dicountPercentage;
+        TaxValue = clothing.Price * dicountPercentage;
     }
 
     public void Visit(Toy toy)
     {
         Database.Discounts.TryGetValue(toy.Id, out double dicountPercentage);
-        Discount = toy.Price * dicountPercentage;
+        TaxValue = toy.Price * dicountPercentage;
     }
 
     public void Visit(Grocery grocery)
     {
         Database.Discounts.TryGetValue(grocery.Id, out double dicountPercentage);
-        Discount = grocery.Price * dicountPercentage;
+        TaxValue = grocery.Price * dicountPercentage;
     }
 }

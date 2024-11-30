@@ -11,6 +11,11 @@ static class Database
     // dictionary for items with their discount
     public static Dictionary<int, double> Discounts = new Dictionary<int, double>();
 
+    // dictionary for Product Types with their Tax
+    public static Dictionary<string, double> Taxs = new Dictionary<string, double>();
+
+
+
     public static void InitializeDatabase()
     {
         Products.Add(new Clothing("T-Shirt", "Cotton T-Shirt", 100.0, Clothing.Sizes.Medium, "Blue"));
@@ -20,9 +25,15 @@ static class Database
         Products.Add(new Grocery("Apple", "Fresh Green Apples", 45.0, 4.0));
         Products.Add(new Grocery("Tomato", "Fresh Red Tomato", 10.25, 1.5));
 
+        // set discounts for some items
         SetDiscount("T-Shirt", 0.20);
         SetDiscount("Apple", 0.35);
         SetDiscount("Luffy Action Figure", 0.10);
+
+        // set Taxes for each product type
+        Taxs["Clothing"] = 0.2;
+        Taxs["Toy"] = 0.3;
+        Taxs["Grocery"] = 0.12;
     }
 
     private static void SetDiscount(string productName, double discountPercintage)

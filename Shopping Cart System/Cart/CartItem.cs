@@ -40,9 +40,16 @@ class CartItem
 
     public void ApplyDiscount()
     {
-        DiscountCalculatorVisitor visitor = new DiscountCalculatorVisitor();
+        Database.Discounts.TryGetValue(TheProduct.Id, out double dicountPercentage);
+        double discount = TheProduct.Price * dicountPercentage;
+        TotalPriceAfterDiscount = TotalPrice - (discount*Quantity);
+    }
+
+    public void ApplyTax()
+    {
+        TaxCalculatorVisitor visitor = new TaxCalculatorVisitor();
         TheProduct.Accept(visitor);
-        TotalPriceAfterDiscount = TotalPrice - (visitor.Discount*Quantity);
+        TotalPriceAfterDiscount += visitor.TaxValue;
     }
 
     public override string ToString()

@@ -4,7 +4,7 @@ using System.Linq;
 
 class ShoppingCart
 {
-    private readonly List<CartItem> CartItems;
+    public readonly List<CartItem> CartItems;
 
     public ShoppingCart()
     {
@@ -75,10 +75,14 @@ class ShoppingCart
     // List all the Item in the cart
     public void ListCartItems()
     {
+        Console.WriteLine("********************************The Shopping Cart********************************");
         foreach (var item in CartItems)
         {
             Console.WriteLine(item.ToString());
+            Console.WriteLine("\t\t**************************************");
         }
+        Console.WriteLine($"----> The Whole Cart Price: {CalculateTotalPrice():C}");
+        Console.WriteLine("*********************************************************************************");
     }
 
     public void ApplyDiscounts()
@@ -86,6 +90,14 @@ class ShoppingCart
         foreach (var item in CartItems)
         {
             item.ApplyDiscount();
+        }
+    }
+
+    public void ApplyTax()
+    {
+        foreach (var item in CartItems)
+        {
+            item.ApplyTax();
         }
     }
 }
