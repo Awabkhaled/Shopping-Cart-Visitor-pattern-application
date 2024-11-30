@@ -31,4 +31,28 @@ public static class ValidationHelper
             throw new ArgumentException(message);
         }
     }
+
+    // Validate if a value Is valid in the options provided
+    public static int ValidateOption(string value, int max, int min)
+    {
+        if(int.TryParse(value, out int result))
+        {
+            if(result >= min && result <= max)
+            {
+                return result;
+            }
+        }
+        return 0;
+    }
+
+    // Validate if a value in an array
+    public static bool ValidateNumberInArray(int[] numbers, string number)
+    {
+        if (int.TryParse(number, out int result))
+        {
+            bool exist = (Array.Exists(numbers, currentId => currentId == result)||result==-1);
+            return exist;
+        }
+        return false;
+    }
 }

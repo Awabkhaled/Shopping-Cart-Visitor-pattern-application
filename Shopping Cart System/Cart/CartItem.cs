@@ -13,8 +13,9 @@ using System.Threading.Tasks;
 class CartItem
 {
     public ProductBase TheProduct { get; set; }
+    public bool DiscountApplied { get; private set; }
     public double TotalPriceAfterDiscount { get; private set; }
-    private int _quantity;
+    private int _quantity=1;
     public int Quantity
     {
         get => _quantity; set => _quantity = value;
@@ -34,7 +35,7 @@ class CartItem
     public CartItem(ProductBase product, int quantity=1) 
     {
         TheProduct = product ?? throw new ArgumentNullException(nameof(product));
-        AddAmount(quantity);
+        Quantity = quantity;
         TotalPriceAfterDiscount = TotalPrice;
     }
 
@@ -43,6 +44,7 @@ class CartItem
         Database.Discounts.TryGetValue(TheProduct.Id, out double dicountPercentage);
         double discount = TheProduct.Price * dicountPercentage;
         TotalPriceAfterDiscount = TotalPrice - (discount*Quantity);
+        DiscountApplied = true;
     }
 
     public void ApplyTax()
@@ -55,12 +57,19 @@ class CartItem
     public override string ToString()
     {
         string discountString = $"\n\t- Total Price: {TotalPrice:C}";
-        if (TotalPriceAfterDiscount != TotalPrice)
+        if (DiscountApplied)
         {
             discountString = $"\n\t- Total Price Before Discount: {TotalPrice:C}" +
                 $"\n\t- Total Price After Discount: {TotalPriceAfterDiscount:C}";
         }
         string finalString = $"{TheProduct.ToString()}\n\t- Quantity: {Quantity}{discountString}";
         return finalString;
+    }
+
+    public string OneLineDescription()
+    {
+        OneLineFormatDescriptionVisitor visitor = new OneLineFormatDescriptionVisitor();
+        TheProduct.Accept(visitor);
+        return $"{Quantity} "+visitor.Description + $" ({TotalPriceAfterDiscount:C})";
     }
 }

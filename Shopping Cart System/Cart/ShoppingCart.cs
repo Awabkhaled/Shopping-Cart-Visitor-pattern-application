@@ -5,6 +5,7 @@ using System.Linq;
 class ShoppingCart
 {
     public readonly List<CartItem> CartItems;
+    private bool DiscountApplied = false;
 
     public ShoppingCart()
     {
@@ -51,7 +52,7 @@ class ShoppingCart
         var existingItem = CartItems.FirstOrDefault(item => item.TheProduct.Id == productId);
         if (existingItem != null)
         {
-            existingItem.AddAmount(quantity);
+            existingItem.Quantity = quantity;
         }
         else
         {
@@ -63,34 +64,40 @@ class ShoppingCart
     // Calculate the whole Total Price
     public double CalculateTotalPrice()
     {
-        return CartItems.Sum(item => item.TotalPriceAfterDiscount);
+        return CartItems.Sum(item => item.DiscountApplied? item.TotalPriceAfterDiscount: item.TotalPrice);
     }
 
     // Clearing Cart
     public void ClearCart()
     {
         CartItems.Clear();
+        DiscountApplied = false;
     }
 
     // List all the Item in the cart
     public void ListCartItems()
     {
-        Console.WriteLine("********************************The Shopping Cart********************************");
+        Console.WriteLine("***************The Shopping Cart***************");
         foreach (var item in CartItems)
         {
             Console.WriteLine(item.ToString());
-            Console.WriteLine("\t\t**************************************");
         }
         Console.WriteLine($"----> The Whole Cart Price: {CalculateTotalPrice():C}");
-        Console.WriteLine("*********************************************************************************");
+        Console.WriteLine("**********************************************");
     }
 
-    public void ApplyDiscounts()
+    public bool ApplyDiscounts()
     {
-        foreach (var item in CartItems)
+        if (!DiscountApplied)
         {
-            item.ApplyDiscount();
+            foreach (var item in CartItems)
+            {
+                item.ApplyDiscount();
+            }
+            DiscountApplied = true;
+            return true;
         }
+        return false;
     }
 
     public void ApplyTax()
@@ -99,5 +106,15 @@ class ShoppingCart
         {
             item.ApplyTax();
         }
+    }
+
+    public List<ProductBase> returnProducts()
+    {
+        List<ProductBase> products = new List<ProductBase>();
+        foreach (var item in CartItems)
+        {
+            products.Add(item.TheProduct);
+        }
+        return products;
     }
 }
